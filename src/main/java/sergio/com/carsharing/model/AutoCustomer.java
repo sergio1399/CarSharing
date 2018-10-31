@@ -7,25 +7,27 @@ import java.time.LocalDateTime;
 @Table(name = "auto_customer")
 public class AutoCustomer {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "start_rent")
+    @Column(name = "start_rent", nullable = false)
     private LocalDateTime startRent;
 
-    @Column(name = "end_rent")
+    @Column(name = "end_rent", nullable = false)
     private LocalDateTime endRent;
 
     @Column(name = "closed_rent")
     private LocalDateTime closedRent;
 
-    @Column
+    @Column(nullable = false)
     private String status;
 
+    //@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "auto_id")
     private Auto auto;
 
+    //@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -89,16 +91,4 @@ public class AutoCustomer {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "AutoCustomer{" +
-                "id=" + id +
-                ", startRent=" + startRent +
-                ", endRent=" + endRent +
-                ", closedRent=" + closedRent +
-                ", status='" + status + '\'' +
-                ", auto=" + auto +
-                ", customer=" + customer +
-                '}';
-    }
 }

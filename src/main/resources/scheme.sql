@@ -1,4 +1,5 @@
-﻿DROP DATABASE IF EXISTS car_sharing;
+﻿CREATE USER IF NOT EXISTS 'user'@'localhost' IDENTIFIED BY 'user';
+DROP DATABASE IF EXISTS car_sharing;
 CREATE DATABASE IF NOT EXISTS car_sharing;
 USE car_sharing;
 CREATE TABLE IF NOT EXISTS auto
@@ -29,7 +30,7 @@ CREATE TABLE IF NOT EXISTS auto_customer
 	customer_id INT NOT NULL,
 	start_rent TIMESTAMP NOT NULL,
 	end_rent TIMESTAMP NOT NULL,
-	closed_rent TIMESTAMP NOT NULL,
+	closed_rent TIMESTAMP,
 	status ENUM('active', 'active expired', 'closed', 'closed expired') NOT NULL,
 	CHECK(start_loan < end_loan),
 	KEY         (auto_id),
@@ -46,3 +47,7 @@ CREATE TABLE IF NOT EXISTS auto_customer
 INSERT INTO auto (brand, model, vin, made_year) VALUES("Mazda", "6", "43fdjwew432", 2012);
 INSERT INTO auto (brand, model, vin, made_year) VALUES("Ford", "Eco Sport", "34rte322eww", 2015);
 INSERT INTO auto (brand, model, vin, made_year) VALUES("Hyundai", "Sonata", "ew2232wsds", 2018);
+
+INSERT INTO customer (name, birth_year, passport_number) VALUES("Quentin Tarantino", 1960, "234343");
+
+INSERT INTO auto_customer (auto_id, customer_id, start_rent, end_rent, closed_rent, status) VALUES(1, 1, '2018-10-30 10:59:59', '2018-10-31 23:59:59' , null, "active");

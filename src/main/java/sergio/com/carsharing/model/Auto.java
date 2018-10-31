@@ -7,7 +7,7 @@ import java.util.List;
 @Table(name = "auto")
 public class Auto {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 32)
@@ -76,15 +76,4 @@ public class Auto {
         this.autoCustomers = autoCustomers;
     }
 
-    @Override
-    public String toString() {
-        return "Auto{" +
-                "id=" + id +
-                ", brand='" + brand + '\'' +
-                ", model='" + model + '\'' +
-                ", vin='" + vin + '\'' +
-                ", madeYear=" + madeYear +
-                ", autoCustomers=" + autoCustomers +
-                '}';
-    }
 }

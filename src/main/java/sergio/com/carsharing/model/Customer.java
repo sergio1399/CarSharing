@@ -7,7 +7,7 @@ import java.util.List;
 @Table(name = "customer")
 public class Customer {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 64)
@@ -65,14 +65,5 @@ public class Customer {
         this.autoCustomers = autoCustomers;
     }
 
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", birthYear=" + birthYear +
-                ", passportNumber='" + passportNumber + '\'' +
-                ", autoCustomers=" + autoCustomers +
-                '}';
-    }
+
 }
