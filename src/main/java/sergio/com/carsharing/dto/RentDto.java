@@ -1,8 +1,10 @@
 package sergio.com.carsharing.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.validation.annotation.Validated;
 import sergio.com.carsharing.model.Customer;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -12,10 +14,12 @@ public class RentDto {
     private Long id;
 
     @NotNull
+    @Valid
     @JsonProperty("auto")
     private AutoDto autoDto;
 
     @NotNull
+    @Valid
     @JsonProperty("customer")
     private CustomerDto customerDto;
 

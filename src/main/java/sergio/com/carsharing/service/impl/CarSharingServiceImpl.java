@@ -15,6 +15,7 @@ import sergio.com.carsharing.model.Auto;
 import sergio.com.carsharing.model.AutoCustomer;
 import sergio.com.carsharing.model.Customer;
 import sergio.com.carsharing.service.CarSharingService;
+import sergio.com.carsharing.service.CheckService;
 import sergio.com.carsharing.utils.AutoCustomerRentConverter;
 
 import java.time.LocalDateTime;
@@ -27,6 +28,8 @@ public class CarSharingServiceImpl implements CarSharingService {
 
     private static final String RIGHT_STATUS = "active";
 
+    private CheckService checkService;
+
     private AutoRepository autoRepository;
 
     private CustomerRepository customerRepository;
@@ -35,10 +38,12 @@ public class CarSharingServiceImpl implements CarSharingService {
 
     private ModelMapper modelMapper;
 
-    public CarSharingServiceImpl(AutoRepository autoRepository,
+    public CarSharingServiceImpl(CheckService checkService,
+                                 AutoRepository autoRepository,
                                  CustomerRepository customerRepository,
                                  AutoCustomerRepository autoCustomerRepository,
                                  ModelMapper modelMapper) {
+        this.checkService = checkService;
         this.autoRepository = autoRepository;
         this.customerRepository = customerRepository;
         this.autoCustomerRepository = autoCustomerRepository;
@@ -77,7 +82,7 @@ public class CarSharingServiceImpl implements CarSharingService {
                 findByAuto_VinAndStatus(persistedAuto.get().getVin(), RIGHT_STATUS);
         if (checkAnotherRent.isPresent()) {
             LOGGER.error("The car is occupied!");
-            throw new CarSharingServiceException("На данный момент автомобиль уже находится в аренде!");
+            throw new CarSharingServiceException("Данный момент автомобиль уже находится в аренде!");
         }
         Optional<Customer> persistedCustomer = customerRepository.findByPassportNumber(autoCustomer.getCustomer().getPassportNumber().trim());
         if (!persistedCustomer.isPresent()) {
@@ -100,17 +105,9 @@ public class CarSharingServiceImpl implements CarSharingService {
             LOGGER.error("The rent to close must be active!");
             throw new CarSharingServiceException("Для закрытия аренда должна быть в статусе открытой!");
         }
-        RentStatus newStatus =  isInTime(autoCustomer.get().getEndRent()) ? RentStatus.CLOSED : RentStatus.CLOSED_EXPIRED;
+        RentStatus newStatus = checkService.isInTime(autoCustomer.get().getEndRent()) ? RentStatus.CLOSED : RentStatus.CLOSED_EXPIRED;
         autoCustomer.get().setStatus(newStatus.getStatus());
         autoCustomer.get().setClosedRent(LocalDateTime.now());
         return newStatus.getStatus();
-    }
-
-    private boolean isInTime(LocalDateTime end) {
-        LocalDateTime now = LocalDateTime.now();
-        if (now.isAfter(end)) {
-            return false;
-        }
-        return true;
     }
 }
