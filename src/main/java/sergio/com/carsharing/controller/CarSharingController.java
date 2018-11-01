@@ -1,5 +1,9 @@
 package sergio.com.carsharing.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,6 +19,7 @@ import sergio.com.carsharing.exception.CarSharingServiceException;
 import sergio.com.carsharing.model.Customer;
 import sergio.com.carsharing.service.CarSharingService;
 
+@Api(value = "CarSharingController", description = "Управление арендой авто")
 @RestController
 @RequestMapping(value = "/carSharing")
 public class CarSharingController {
@@ -27,6 +32,11 @@ public class CarSharingController {
         this.service = service;
     }
 
+    @ApiOperation(value = "Открыть аренду авто", httpMethod = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Успешное закрытие аренды", response = ResponseDto.class),
+            @ApiResponse(code = 400, message = "Ошибка входных данных", response = ResponseDto.class),
+            @ApiResponse(code = 500, message = "Непредвиденная ошибка сервиса", response = ResponseDto.class)})
     @PostMapping(value = "/openRent", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     ResponseEntity<ResponseDto> openRent(@Validated @RequestBody RentDto rentDto) throws CarSharingServiceException {
         String status = service.openRent(rentDto);
@@ -35,6 +45,11 @@ public class CarSharingController {
         return ResponseEntity.ok().body(responseDto);
     }
 
+    @ApiOperation(value = "Закрыть аренду авто", httpMethod = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Успешное закрытие аренды", response = ResponseDto.class),
+            @ApiResponse(code = 400, message = "Ошибка входных данных", response = ResponseDto.class),
+            @ApiResponse(code = 500, message = "Непредвиденная ошибка сервиса", response = ResponseDto.class)})
     @GetMapping(value = "/closeRent", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     ResponseEntity<ResponseDto> closeRentById(@RequestParam(required = false) Long rentId,
                                               @RequestParam(required = false) String vin,
@@ -69,7 +84,7 @@ public class CarSharingController {
     @ExceptionHandler
     public ResponseEntity<ResponseDto> runtimeErrorHandler(RuntimeException e) {
         LOGGER.error("Unexpected exception with message: " + e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body( new ResponseDto("Непредвиденная ошибка сервиса"));
     }
 }
