@@ -1,5 +1,4 @@
-﻿CREATE USER IF NOT EXISTS 'user'@'localhost' IDENTIFIED BY 'user';
-DROP DATABASE IF EXISTS car_sharing;
+﻿DROP DATABASE IF EXISTS car_sharing;
 CREATE DATABASE IF NOT EXISTS car_sharing;
 USE car_sharing;
 CREATE TABLE IF NOT EXISTS auto

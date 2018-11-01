@@ -36,9 +36,7 @@ import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.IS
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CarSharingApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@Transactional
-@Rollback
-public class CarSharingControllerIT extends AbstractTransactionalJUnit4SpringContextTests {
+public class CarSharingControllerIT {
     @LocalServerPort
     private int port = 8080;
 

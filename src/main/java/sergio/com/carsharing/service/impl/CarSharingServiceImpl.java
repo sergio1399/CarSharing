@@ -1,6 +1,5 @@
 package sergio.com.carsharing.service.impl;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -36,18 +35,14 @@ public class CarSharingServiceImpl implements CarSharingService {
 
     private AutoCustomerRepository autoCustomerRepository;
 
-    private ModelMapper modelMapper;
-
     public CarSharingServiceImpl(CheckService checkService,
                                  AutoRepository autoRepository,
                                  CustomerRepository customerRepository,
-                                 AutoCustomerRepository autoCustomerRepository,
-                                 ModelMapper modelMapper) {
+                                 AutoCustomerRepository autoCustomerRepository) {
         this.checkService = checkService;
         this.autoRepository = autoRepository;
         this.customerRepository = customerRepository;
         this.autoCustomerRepository = autoCustomerRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -72,7 +67,7 @@ public class CarSharingServiceImpl implements CarSharingService {
     @Override
     @Transactional
     public String openRent(RentDto rentDto) throws CarSharingServiceException {
-        AutoCustomer autoCustomer = AutoCustomerRentConverter.convertToModel(rentDto, modelMapper);
+        AutoCustomer autoCustomer = AutoCustomerRentConverter.convertToModel(rentDto);
         Optional<Auto> persistedAuto = autoRepository.findByVin(autoCustomer.getAuto().getVin().trim());
         if (!persistedAuto.isPresent()) {
             LOGGER.error("No auto records found!");

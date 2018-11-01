@@ -3,7 +3,6 @@ package sergio.com.carsharing.service.impl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -46,9 +45,6 @@ public class CarSharingServiceImplTest {
 
     @MockBean
     CustomerRepository customerRepository;
-
-    @MockBean
-    ModelMapper modelMapper;
 
     private static final String BRAND = "Mazda";
 
