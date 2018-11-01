@@ -50,4 +50,4 @@ INSERT INTO auto (brand, model, vin, made_year) VALUES("Hyundai", "Sonata", "ew2
 
 INSERT INTO customer (name, birth_year, passport_number) VALUES("Quentin Tarantino", 1960, "234343");
 
-INSERT INTO auto_customer (auto_id, customer_id, start_rent, end_rent, closed_rent, status) VALUES(1, 1, '2018-10-30 10:59:59', '2018-10-31 23:59:59' , null, "active");
+INSERT INTO auto_customer (auto_id, customer_id, start_rent, end_rent, closed_rent, status) VALUES(1, 1, '2018-10-30T10:59:59', '2018-10-31T23:59:59' , null, "active");
