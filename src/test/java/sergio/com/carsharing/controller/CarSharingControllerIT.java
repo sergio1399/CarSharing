@@ -56,6 +56,40 @@ public class CarSharingControllerIT {
     private static final String ERROR_NO_PARAMS = "{\"message\":\"Некорректные входные параметры\"}";
 
     @Test
+    @Sql(scripts = "after_test1.sql", executionPhase = AFTER_TEST_METHOD)
+    public void testOpenRentNewCustomer() throws JSONException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-type", "application/json");
+        String body = "{\n" +
+                "\t\"auto\":{\n" +
+                "\t\t\"brand\": \"Hyundai\",\n" +
+                "\t\t\"model\": \"Sonata\",\n" +
+                "\t\t\"vin\": \"ew2232wsds\",\n" +
+                "\t\t\"madeYear\": \"2018\"\n" +
+                "\t},\n" +
+                "\t\"customer\":{\n" +
+                "\t\t\"name\": \"Shaquille O'Neal\",\n" +
+                "\t\t\"birthYear\": \"1971\",\n" +
+                "\t\t\"passportNumber\": \"438923\"\n" +
+                "\t},\n" +
+                "\t\"startRent\": \"2018-10-31T15:59:59\",\n" +
+                "\t\"endRent\": \"2018-11-02T18:59:59\",\n" +
+                "\t\"status\": \"active\"\n" +
+                "}";
+
+        HttpEntity<String> entity = new HttpEntity<String>(body, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                createURLWithPort("/carSharing/openRent"),
+                HttpMethod.POST, entity, String.class);
+
+        String expected = STATUS_ACTIVE;
+
+        JSONAssert.assertEquals(expected, response.getBody(), false);
+    }
+
+    @Test
+    @Sql(scripts = "after_test2.sql", executionPhase = AFTER_TEST_METHOD)
     public void testOpenRent() throws JSONException {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type", "application/json");
@@ -152,6 +186,7 @@ public class CarSharingControllerIT {
     }
 
     @Test
+    @Sql(scripts = "after_test6.sql", executionPhase = AFTER_TEST_METHOD)
     public void testCloseRentById() throws JSONException {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type", "application/json");
@@ -168,6 +203,7 @@ public class CarSharingControllerIT {
     }
 
     @Test
+    @Sql(scripts = "after_test6.sql", executionPhase = AFTER_TEST_METHOD)
     public void testCloseRentByVinAndPassport() throws JSONException {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type", "application/json");
