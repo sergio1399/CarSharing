@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS auto_customer
 INSERT INTO auto (brand, model, vin, made_year) VALUES("Mazda", "6", "43fdjwew432", 2012);
 INSERT INTO auto (brand, model, vin, made_year) VALUES("Ford", "Eco Sport", "34rte322eww", 2015);
 INSERT INTO auto (brand, model, vin, made_year) VALUES("Hyundai", "Sonata", "ew2232wsds", 2018);
+INSERT INTO auto (brand, model, vin, made_year) VALUES("Honda", "CRV", "245tr34fg2", 2017);
 
 INSERT INTO customer (name, birth_year, passport_number) VALUES("Quentin Tarantino", 1960, "234343");
 

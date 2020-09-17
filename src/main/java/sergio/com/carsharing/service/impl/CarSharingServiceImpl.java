@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sergio.com.carsharing.dao.AutoCustomerRepository;
 import sergio.com.carsharing.dao.AutoRepository;
 import sergio.com.carsharing.dao.CustomerRepository;
+import sergio.com.carsharing.dto.AutoDto;
 import sergio.com.carsharing.dto.RentDto;
 import sergio.com.carsharing.dto.enums.RentStatus;
 import sergio.com.carsharing.exception.CarSharingServiceException;
@@ -18,6 +19,7 @@ import sergio.com.carsharing.service.CheckService;
 import sergio.com.carsharing.utils.AutoCustomerRentConverter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -89,6 +91,16 @@ public class CarSharingServiceImpl implements CarSharingService {
         autoCustomer.setAuto(persistedAuto.get());
         autoCustomerRepository.save(autoCustomer);
         return autoCustomer.getStatus();
+    }
+
+    @Override
+    public String extendRent(Long id) throws CarSharingServiceException {
+        return null;
+    }
+
+    @Override
+    public List<AutoDto> findCars(String filter) throws CarSharingServiceException {
+        return null;
     }
 
     private String closeRentProcess(Optional<AutoCustomer> autoCustomer) throws CarSharingServiceException {
